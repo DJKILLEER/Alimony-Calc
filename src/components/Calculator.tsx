@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calculator as CalculatorIcon, DollarSign, FileText, Home } from 'lucide-react';
+import { Calculator as CalculatorIcon, DollarSign, FileText, Home, Users, Receipt } from 'lucide-react';
 
 type CalculatorProps = {
   formData: {
@@ -8,6 +8,8 @@ type CalculatorProps = {
     employmentStatus: string;
     divorceReason: string;
     propertyOwnership: string;
+    children: string;
+    monthlyExpenses: string;
   };
   setFormData: (data: any) => void;
   onSubmit: (e: React.FormEvent) => void;
@@ -69,6 +71,38 @@ export function Calculator({ formData, setFormData, onSubmit }: CalculatorProps)
                 <option value="employed">Employed</option>
                 <option value="unemployed">Unemployed</option>
               </select>
+            </div>
+
+            <div className="col-span-2">
+              <label className=" text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                <Users className="w-4 h-4" />
+                Number of Children
+              </label>
+              <input
+                type="number"
+                min="0"
+                value={formData.children}
+                onChange={(e) => setFormData({ ...formData, children: e.target.value })}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                placeholder="Enter number of children"
+              />
+            </div>
+
+            <div className="col-span-2">
+              <label className=" text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                <Receipt className="w-4 h-4" />
+                Monthly Expenses
+              </label>
+              <div className="relative">
+                <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="number"
+                  value={formData.monthlyExpenses}
+                  onChange={(e) => setFormData({ ...formData, monthlyExpenses: e.target.value })}
+                  className="pl-10 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                  placeholder="Enter monthly expenses"
+                />
+              </div>
             </div>
 
             <div className="col-span-2">
