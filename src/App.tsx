@@ -14,6 +14,8 @@ function App() {
     employmentStatus: 'employed',
     divorceReason: '',
     propertyOwnership: 'none',
+    children: '',
+    monthlyExpenses: '',
   });
 
   useEffect(() => {
@@ -53,12 +55,28 @@ function App() {
     e.preventDefault();
     const income = parseFloat(formData.income);
     const years = parseFloat(formData.marriageYears);
+    const children = parseInt(formData.children) || 0;
+    const monthlyExpenses = parseFloat(formData.monthlyExpenses) || 0;
     
+    // Base calculation
     let amount = income * 0.3;
+    
+    // Marriage duration factor
     amount *= Math.min(years / 10, 1);
+    
+    // Employment status adjustment
     if (formData.employmentStatus === 'unemployed') {
       amount *= 1.2;
     }
+    
+    // Children adjustment (5% increase per child up to 3 children)
+    const childrenAdjustment = Math.min(children, 3) * 0.05;
+    amount *= (1 + childrenAdjustment);
+    
+    // Monthly expenses consideration (up to 10% additional based on expenses ratio to income)
+    const expensesRatio = (monthlyExpenses * 12) / income;
+    const expensesAdjustment = Math.min(expensesRatio, 0.1);
+    amount *= (1 + expensesAdjustment);
     
     setAlimonyAmount(Math.round(amount));
     setDisplayAmount(0);
@@ -74,6 +92,8 @@ function App() {
       employmentStatus: 'employed',
       divorceReason: '',
       propertyOwnership: 'none',
+      children: '',
+      monthlyExpenses: '',
     });
   };
 
